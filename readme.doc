@@ -1,0 +1,122 @@
+
+
+# User Registration API Documentation
+
+The User Registration API allows users to create a new account on the platform by providing their name, email, and password. Upon successful registration, the API sends an activation email to the provided email address.
+
+## API Endpoint
+
+- **URL**: `/api/v1/registration`
+- **Method**: `POST`
+
+## Request Body
+
+- The request body should be in JSON format and include the following fields:
+
+    - `name` (string, required): The user's name.
+    - `email` (string, required): The user's email address.
+    - `password` (string, required): The user's password.
+
+Example Request Body:
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "password": "my_secure_password",
+}
+```
+
+## Responses
+
+### Successful Registration
+
+- **Status Code**: 200 OK
+- **Response Body**: JSON object with a success message and an activation token.
+
+Example Response Body:
+```json
+{
+  "success": true,
+  "message": "Activation link sent to your email",
+  "activationToken": "your_activation_token_here"
+}
+```
+
+### Invalid Input
+
+- **Status Code**: 400 Bad Request
+- **Response Body**: JSON object with an error message specifying the validation error(s).
+
+Example Response Body (Invalid Email):
+```json
+{
+  "success": false,
+  "error": "Invalid email format"
+}
+```
+
+### Email Already Exists
+
+- **Status Code**: 400 Bad Request
+- **Response Body**: JSON object with an error message indicating that the provided email already exists in the system.
+
+Example Response Body:
+```json
+{
+  "success": false,
+  "error": "Email already exists"
+}
+```
+
+### Server Error
+
+- **Status Code**: 500 Internal Server Error
+- **Response Body**: JSON object with an error message indicating a server-side error.
+
+Example Response Body:
+```json
+{
+  "success": false,
+  "error": "Internal server error"
+}
+```
+
+## Notes
+
+- User registration requires a valid email address and a secure password.
+- An activation email containing an activation link or code is sent to the provided email address.
+- The activation link/code should be used to activate the user's account.
+
+## Example Usage
+
+```javascript
+// Example using the fetch API in JavaScript
+const apiUrl = '/api/v1/registration';
+const userData = {
+  name: 'John Doe',
+  email: 'john.doe@example.com',
+  password: 'my_secure_password',
+};
+
+fetch(apiUrl, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(userData),
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.success) {
+      console.log(data.message);
+      console.log('Activation Token:', data.activationToken);
+    } else {
+      console.error(data.error);
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+```
+
+This documentation provides details about the User Registration API, including the API endpoint, request format, and possible response scenarios. It also includes example usage in JavaScript using the fetch API.
