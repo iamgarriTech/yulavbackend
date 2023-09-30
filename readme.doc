@@ -120,3 +120,88 @@ fetch(apiUrl, {
 ```
 
 This documentation provides details about the User Registration API, including the API endpoint, request format, and possible response scenarios. It also includes example usage in JavaScript using the fetch API.
+
+
+Certainly, here's the documentation for the activation route `/api/activate-user`:
+
+## Activate User
+
+This route allows users to activate their accounts by providing a valid activation token and activation code. The activation token is received during the registration process, and the activation code is sent to the user's email.
+
+- **URL**: `/api/activate-user`
+- **Method**: `POST`
+
+### Request Body
+
+The request body should be in JSON format and include the following fields:
+
+- `activation_token` (string, required): The activation token received by the user during registration.
+- `activation_code` (string, required): The activation code received by the user via email.
+
+Example Request Body:
+```json
+{
+  "activation_token": "your_activation_token_here",
+  "activation_code": "123456"
+}
+```
+
+### Responses
+
+#### Successful Activation
+
+- **Status Code**: 201 Created
+- **Response Body**: JSON object indicating a successful activation.
+
+Example Response Body:
+```json
+{
+  "success": true
+}
+```
+
+#### Invalid Activation Code
+
+- **Status Code**: 400 Bad Request
+- **Response Body**: JSON object with an error message indicating an invalid activation code.
+
+Example Response Body:
+```json
+{
+  "success": false,
+  "error": "Invalid activation code"
+}
+```
+
+#### Email Already Exists
+
+- **Status Code**: 400 Bad Request
+- **Response Body**: JSON object with an error message indicating that the email already exists.
+
+Example Response Body:
+```json
+{
+  "success": false,
+  "error": "Email already exists"
+}
+```
+
+#### Server Error
+
+- **Status Code**: 500 Internal Server Error
+- **Response Body**: JSON object with an error message indicating a server-side error.
+
+Example Response Body:
+```json
+{
+  "success": false,
+  "error": "Internal server error"
+}
+```
+
+### Notes
+
+- User activation requires a valid activation token and matching activation code.
+- The activation code is sent to the user's email during registration.
+
+Clients should use this route to complete the registration process and activate their accounts.
