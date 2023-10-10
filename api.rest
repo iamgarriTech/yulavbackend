@@ -1,0 +1,226 @@
+// course create
+POST http://localhost:8000/api/v1/create-course/
+content-type: application/json
+
+{
+    "name": "sample 6",
+    "price": 20,
+    "description": "new sample course 6"
+}
+
+###
+// course edit
+PUT http://localhost:8000/api/v1/edit-course/651d7908f9072a22471d032d
+content-type: application/json
+
+{
+    "name": "sample 2nd",
+    "price": 10,
+    "description": "sample course second"
+}
+
+###
+// course fetch single
+GET http://localhost:8000/api/v1/get-course/651d7908f9072a22471d032d
+
+
+###
+// course fetch all
+GET http://localhost:8000/api/v1/get-courses/
+
+
+###
+// course fetch contents
+GET http://localhost:8000/api/v1/get-course-content/651d7908f9072a22471d032d
+
+
+###
+// course question add
+PUT http://localhost:8000/api/v1/add-question
+content-type: application/json
+
+{
+    "question": "test question",
+    "courseId": "651d7908f9072a22471d032d",
+    "contentId": ""
+}
+
+
+###
+// course review add
+PUT http://localhost:8000/api/v1/add-review/651d7908f9072a22471d032d
+content-type: application/json
+
+{
+    "review": "great course",
+    "rating": 5
+}
+
+
+###
+// course review reply add
+PUT http://localhost:8000/api/v1/add-reply
+content-type: application/json
+
+{
+    "comment": "thank you",
+    "courseId": "651d7908f9072a22471d032d",
+    "reviewId": ""
+}
+
+###
+// create order 
+POST http://localhost:8000/api/v1/create-order
+content-type: application/json
+
+{
+    "courseId": "651d7908f9072a22471d032d"
+}
+
+###
+// fetch all notification
+GET http://localhost:8000/api/v1/get-all-notification
+
+
+###
+// update notification
+PUT http://localhost:8000/api/v1/update-notification/6522d1bb26dfc8ecbdba00fe
+
+###
+// fetch all users -- admin
+GET http://localhost:8000/api/v1/get-users
+
+###
+// fetch all orders -- admin
+GET http://localhost:8000/api/v1/get-all-orders
+
+
+###
+// fetch all courses -- admin
+GET http://localhost:8000/api/v1/get-all-courses
+
+
+###
+// update-user-role --- admin
+PUT http://localhost:8000/api/v1/update-user-role
+content-type: application/json
+
+{
+    "id": "65149287191100c2897c6526",
+    "role": "tutor"
+}
+
+
+###
+// delete-user --- admin
+DELETE http://localhost:8000/api/v1/delete-user/651d7899f9072a22471d032b
+
+
+
+###
+// delete-course --- admin
+DELETE http://localhost:8000/api/v1/delete-course/651d7899f9072a22471d032b
+
+
+
+
+###
+// get-users-analytics -- admin
+GET http://localhost:8000/api/v1/get-users-analytics
+
+
+
+###
+// get-courses-analytics -- admin
+GET http://localhost:8000/api/v1/get-courses-analytics
+
+
+###
+// get-orders-analytics -- admin
+GET http://localhost:8000/api/v1/get-orders-analytics
+
+
+###
+// create layout -- admin
+POST http://localhost:8000/api/v1/create-layout
+Content-Type: "application/json"
+
+{
+    "type": "FAQ",
+    "faq": [
+        {
+            "question": "Who's the supplier of garri in yulav",
+            "answer": "GarriTech",
+        },
+        {
+            "question": "Who's the boss of yulav frontend",
+            "answer": "Madam Dami & Big Boss Enitan",
+        }
+    ]
+}
+
+### categories layout
+// create layout -- admin
+POST http://localhost:8000/api/v1/create-layout
+Content-Type: "application/json"
+
+{
+    "type": "Categories",
+    "categories": [
+        {
+            "title": "Web Design"
+        },
+        {
+            "title": "Digital Marketing"
+        }
+    ]
+}
+
+
+
+
+###
+// edit layout -- admin
+PUT http://localhost:8000/api/v1/edit-layout
+Content-Type: "application/json"
+
+{
+    "type": "FAQ",
+    "faq": [
+        {
+            "question": "Who's the supplier of garri in yulav",
+            "answer": "GarriTech",
+        },
+        {
+            "question": "Who's the boss of yulav frontend",
+            "answer": "Madam Dami & Big Boss Enitan",
+        }
+    ]
+}
+
+### categories layout
+// edit layout -- admin
+PUT http://localhost:8000/api/v1/edit-layout
+Content-Type: "application/json"
+
+{
+    "type": "Categories",
+    "categories": [
+        {
+            "title": "Web Design"
+        },
+        {
+            "title": "Digital Marketing"
+        }
+    ]
+}
+
+
+###
+// get layout -- 
+GET http://localhost:8000/api/v1/get-layout
+Content-Type: "application/json"
+
+{
+    "type": "FAQ"
+}

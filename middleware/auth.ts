@@ -22,7 +22,7 @@ export const isAuthenticated = CatchAsyncError(async (req: Request, res: Respons
         const user = await redis.get(decoded.id);
 
         if (!user) {
-            return next(new ErrorHandler("User not found", 400));
+            return next(new ErrorHandler("PLease login to access this resource", 400));
         }
 
         // Attach the user object to the request for further middleware or route handling

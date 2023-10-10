@@ -27,3 +27,31 @@ export const getUserById = async (id: string, res: Response) => {
         });
     }
 };
+
+
+// get all users
+export const getAllUsersService = async (res: Response) => {
+    const users = await userModel.find().sort({createdAt: -1});
+    res.status(200).json({
+        success: true,
+        users,
+    });
+};
+
+//update user role
+export const updateUserRoleService = async (res: Response, id: string, role: string) => {
+    try {
+        const user = await userModel.findByIdAndUpdate(id, { role }, { new: true });
+        res.status(200).json({
+            success: true,
+            user,
+        });
+        
+    } catch (error) {
+        console.error('Error fetching user from Redis:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error.',
+        });
+    }
+};

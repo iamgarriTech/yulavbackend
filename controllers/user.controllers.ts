@@ -12,7 +12,7 @@ import {
   sendToken,
 } from "../utils/jwt";
 import { redis } from "../utils/redis";
-import { getUserById } from "../services/user.service";
+import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
 import cloudinary from "cloudinary";
 interface IRegistrationBody {
   name: string;
@@ -227,7 +227,7 @@ export const updateAccessToken = CatchAsyncError(
       }
       const session = await redis.get(decoded.id as string);
       if (!session) {
-        return next(new ErrorHandler(message, 400));
+        return next(new ErrorHandler("Please login to access this resource", 400));
       }
 
       const user = JSON.parse(session);
@@ -250,6 +250,9 @@ export const updateAccessToken = CatchAsyncError(
       req.user = user;
       res.cookie("access_token", accessToken, accessTokenOptions);
       res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+      
+      await redis.set(user._id, JSON.stringify(user), "EX", 604800) // 7days
+
       res.status(200).json({
         status: "success",
         accessToken,
@@ -422,6 +425,60 @@ export const updateProfilePicture = CatchAsyncError(
         avatar,
     });
     } catch (error) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+
+
+// get all users --- only for admin
+export const getAllUsers = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      getAllUsersService(res)
+    } catch (error:any) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+
+// update user role --- only for admin
+export const updateUserRole = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id, role } = req.body;
+      updateUserRoleService(res, id, role)
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 400));
+    }
+  }
+);
+
+
+// delete user --- only for admin
+export const deleteUser = CatchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      const user = await userModel.findById(id);
+
+      if(!user){
+        return next(new ErrorHandler("User Not Found", 404));
+      }
+
+      await user.deleteOne({ id })
+
+      await redis.del(id)
+
+      res.status(200).json({
+          success: true,
+          message: "User deleted successfully",
+      });
+
+    } catch (error:any) {
       return next(new ErrorHandler(error.message, 400));
     }
   }
